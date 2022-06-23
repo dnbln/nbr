@@ -78,7 +78,7 @@ void nbr_interpret(struct interpret_context_t *context, struct cfg_container *co
                 break;
             case PRINT:
                 fputc((char) tape->tape[tape->ptr], context->out);
-                fflush(stdout);
+                fflush(context->out);
                 break;
             case COL:
                 break;
