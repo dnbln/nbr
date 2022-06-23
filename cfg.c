@@ -89,6 +89,10 @@ void nbr_build_cfg(const char *file, size_t file_size, struct cfg_container *con
         }
     }
 
+    assert(loop_stack_ptr == 0);
+
+    free(loop_stack);
+
     return;
 
     NO_QUICK_CHAINS:
@@ -127,6 +131,10 @@ void nbr_build_cfg(const char *file, size_t file_size, struct cfg_container *con
                 break;
         }
     }
+
+    assert(loop_stack_ptr == 0);
+
+    free(loop_stack);
 
     return;
 }
@@ -186,5 +194,12 @@ void nbr_dump_cfg(FILE *fp, struct cfg_container *container) {
 }
 
 void nbr_free_container(struct cfg_container *container) {
+    for (size_t i = 0; i < container->actual_siz; i++) {
+        const struct cfg_node_t* ptr = &container->buf_start[i];
+        if (ptr->kind == START_LOOP && ptr->attached_data.loop_data != NULL) {
+            free(ptr->attached_data.loop_data);
+        }
+    }
+
     free(container->buf_start);
 }

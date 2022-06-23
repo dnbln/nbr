@@ -26,6 +26,9 @@ void nbr_start(char *file, size_t size) {
     opt_profile.opt_loops = true;
 
     nbr_build_cfg(buf, size, &container, &opt_profile);
+
+    free(buf);
+
 //    nbr_dump_cfg(stdout, &container);
 
     nbr_optimize(&container, &opt_profile);
